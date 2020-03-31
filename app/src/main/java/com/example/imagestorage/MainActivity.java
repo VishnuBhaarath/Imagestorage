@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button chooseimage1,nextactivity1;
     Uri mImageUri;
+    Boolean val=true;
     ImageView mImageView;
     private StorageReference mStorageRef;
 
@@ -41,14 +42,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 openfilechooser();
 
+
             }
         });
-       nextactivity1.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               uploadFile();
-           }
-       });
+
+        nextactivity1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent=new Intent(MainActivity.this,Activity2.class);
+               startActivity(intent);
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -61,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+        uploadFile();
+
     }
     private void openfilechooser(){
         Intent intent=new Intent();
@@ -69,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
     }
     private void uploadFile(){
+        Toast.makeText(MainActivity.this,"enter",Toast.LENGTH_SHORT).show();
         if(mImageUri!=null){
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-                    + "." + getFileExtension(mImageUri));
+            StorageReference fileReference = mStorageRef.child("images"+"."+getFileExtension(mImageUri));
 
             Log.e("mams",mImageUri.toString());
             fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -95,4 +101,3 @@ public class MainActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 }
-
