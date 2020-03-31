@@ -1,0 +1,2 @@
+rootProject.name='Imagestorage'
+include ':app'
